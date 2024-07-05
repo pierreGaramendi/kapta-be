@@ -1,5 +1,5 @@
 import { IUser, IUserWithId } from "../../../core/entities/User.model";
-import { UserRepository } from "../UserRepository";
+import { UserRepository } from "../UserRepository.model";
 import UserModel from "./UserModel";
 
 export class MongoUserRepository implements UserRepository {

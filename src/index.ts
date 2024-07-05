@@ -4,10 +4,11 @@ import bodyParser from "body-parser";
 import { connectMongoDB } from "./infrastructure/config/mongoConfig";
 import userRouter from "./delivery/routers/UserRouter";
 import authRouter from "./delivery/routers/AuthRouter";
-
+import cors from 'cors';
 dotenv.config();
 
 const app: Application = express();
+app.use(cors());
 connectMongoDB();
 app.disable("x-powered-by");
 
