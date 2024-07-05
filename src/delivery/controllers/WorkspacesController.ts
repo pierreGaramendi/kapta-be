@@ -5,10 +5,7 @@ import { GetProductsUseCase } from "../../core/use_cases/GetProductsUseCase";
 import { MongoProductRepository } from "../../infrastructure/persistence/mongo/MongoProductRepository";
 
 const productRepository = new InMemoryProductRepository();
-
 const mongoProductRepository = new MongoProductRepository();
-//const createProductMongoUseCase = new CreateProductUseCase(mongoProductRepository);
-
 const createProductUseCase = new CreateProductUseCase(productRepository);
 const getProductsUseCase = new GetProductsUseCase(productRepository);
 

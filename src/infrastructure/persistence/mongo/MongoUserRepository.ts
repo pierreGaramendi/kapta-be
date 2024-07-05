@@ -1,6 +1,4 @@
-// src/infrastructure/persistence/mongo/MongoUserRepository.ts
 import { IUser } from "../../../core/entities/User.model";
-
 import { UserRepository } from "../UserRepository";
 import UserModel from "./UserModel";
 

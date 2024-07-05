@@ -1,4 +1,3 @@
-// src/infrastructure/persistence/mongo/MongoProductRepository.ts
 import { ILocalProduct, Product } from "../../../core/entities/Product";
 import { ProductRepositoryMongo } from "../ProductRepositoryMongo";
 import ProductModel from "./ProductModel";
@@ -10,7 +9,6 @@ export class MongoProductRepository implements ProductRepositoryMongo {
       price: product.price,
     });
     const savedProduct = await createdProduct.save();
-    //return new Product(savedProduct.id, savedProduct.name, savedProduct.price);
     return { id: savedProduct.id, name: savedProduct.name, price: savedProduct.price };
   }
 
