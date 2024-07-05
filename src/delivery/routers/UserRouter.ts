@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { createUser, getUsers } from "../controllers/UserController";
+import { getUsers } from "../controllers/UserController";
+import { authMiddleware } from "../middlewares/auth";
 
-const router = Router();
+const userRouter = Router();
 
-router.post("/users", createUser);
-router.get("/users", getUsers);
+userRouter.get("/",authMiddleware, getUsers);
 
-export default router;
+export { userRouter };
