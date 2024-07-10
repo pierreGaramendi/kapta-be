@@ -1,13 +1,13 @@
-import { UserRepository } from "../../infrastructure/persistence/UserRepository.model";
+import { Response } from "express";
+import { IUserRepository } from "../../infrastructure/persistence/mongo/user/UserRepository.model";
 import { matchPassword } from "../../infrastructure/utils/PasswordHasher";
 import jwt from "jsonwebtoken";
+import { isProduction } from "../../infrastructure/utils/enviroment.util";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-export class LoginUserUseCase {
-  constructor(private userRepository: UserRepository) {}
-
-  async execute(email: string, password: string): Promise<any> {
-    const user = await this.userRepository.findByEmail(email);
+export const LoginUserUseCase =
+  (userRepository: IUserRepository) =>
+  async (emailAddress: string, password: string, res: Response): Promise<any> => {
+    const user = await userRepository.findByEmail(emailAddress);
     if (!user) {
       return { message: "Invalid email" };
     }
@@ -15,7 +15,14 @@ export class LoginUserUseCase {
     if (!isPasswordValid) {
       return { message: "Invalid password" };
     }
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
-    return { token };
-  }
-}
+    const { username, email, roles } = user;
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || "vvv", { expiresIn: "1h" });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction(),
+      maxAge: 3600000,
+      sameSite: "strict",
+      signed: true,
+    });
+    return { username, email, roles };
+  };

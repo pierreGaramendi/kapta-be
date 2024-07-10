@@ -1,10 +1,11 @@
-import { UserRepository } from "../../infrastructure/persistence/UserRepository.model";
-import { IUser } from "../entities/User.model";
+import { IUserRepository } from "../../infrastructure/persistence/mongo/user/UserRepository.model";
 
-export class GetUsersUseCase {
-    constructor(private userRepository: UserRepository) {}
+export const GetUsersUseCase = (userRepository: IUserRepository) => async (): Promise<any> => {
+  return await userRepository.getAll();
+};
 
-    async execute(): Promise<IUser[]> {
-        return await this.userRepository.getAll();
-    }
-}
+export const GetUserByIdUseCase =
+  (userRepository: IUserRepository) =>
+  async (_id: string): Promise<any> => {
+    return await userRepository.getUserById(_id);
+  };

@@ -1,11 +1,9 @@
-import { UserRepository } from "../../infrastructure/persistence/UserRepository.model";
+import { IUserRepository } from "../../infrastructure/persistence/mongo/user/UserRepository.model";
 import { IUser } from "../entities/User.model";
 
-
-export class CreateUserUseCase {
-  constructor(private userRepository: UserRepository) {}
-  async execute(username: string, email: string, passwordHash: string, roles: any): Promise<IUser> {
-    const user: IUser = { username, email, passwordHash, roles };
-    return await this.userRepository.save(user);
-  }
-}
+export const createUserUseCase =
+  (userRepository: IUserRepository) =>
+  async (username: string, email: string, passwordHash: string): Promise<any> => {
+    const user: IUser = { username, email, passwordHash, roles:[] };
+    return await userRepository.save(user);
+  };
